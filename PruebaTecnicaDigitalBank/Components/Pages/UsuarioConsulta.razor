@@ -1,0 +1,279 @@
+@page "/usuarios"
+@rendermode InteractiveServer
+
+<PageTitle>Consulta de Usuarios</PageTitle>
+
+<div class="usuarios-container">
+    <div class="usuarios-card">
+        <h1 class="usuarios-title">Consulta de Usuarios</h1>
+
+        <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <a href="/" class="btn btn-home">
+                <i class="bi bi-house-door"></i> Inicio
+            </a>
+            <a href="/usuario/insertar" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Nuevo Usuario
+            </a>
+        </div>
+
+        @if (isLoading)
+        {
+            <p class="loading-text"><em>Cargando...</em></p>
+        }
+        else if (usuarios == null || !usuarios.Any())
+        {
+            <p class="no-data-text">No hay usuarios registrados.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Sexo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var usuario in usuarios)
+                        {
+                            <tr>
+                                <td>@usuario.Id</td>
+                                <td>@usuario.Nombre</td>
+                                <td>@usuario.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @switch (usuario.Sexo)
+                                    {
+                                        case "M":
+                                            <text>Masculino</text>
+                                            break;
+                                        case "F":
+                                            <text>Femenino</text>
+                                            break;
+                                        case "O":
+                                            <text>Otro</text>
+                                            break;
+                                        default:
+                                            <text>@usuario.Sexo</text>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/usuario/@usuario.Id" class="btn btn-sm btn-warning me-2">Editar</a>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => ConfirmarEliminar(usuario.Id, usuario.Nombre)">Eliminar</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (mostrarConfirmacion)
+        {
+            <div class="modal show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0,0,0,0.7);">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content modal-dark">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmar Eliminación</h5>
+                            <button type="button" class="btn-close btn-close-white" @onclick="CancelarEliminar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>¿Está seguro que desea eliminar al usuario <strong>@usuarioAEliminarNombre</strong>?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @onclick="CancelarEliminar">Cancelar</button>
+                            <button type="button" class="btn btn-danger" @onclick="EliminarUsuario">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(mensaje))
+        {
+            <div class="alert @(mensajeExito ? "alert-success" : "alert-danger") mt-3" role="alert">
+                @mensaje
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .usuarios-container {
+        min-height: 100vh;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+
+    .usuarios-card {
+        background-color: #0f3460;
+        border-radius: 12px;
+        padding: 2.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 1200px;
+        margin: 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .usuarios-title {
+        color: #00d4ff;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+
+    .usuarios-card .btn-home {
+        background-color: #533483;
+        border-color: #533483;
+        color: #f0f0f0;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .usuarios-card .btn-home:hover {
+        background-color: #6b43a8;
+        border-color: #6b43a8;
+        color: #f0f0f0;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(83, 52, 131, 0.4);
+    }
+
+    .usuarios-card .btn-primary {
+        background-color: #00d4ff;
+        border-color: #00d4ff;
+        color: #0a0e27;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .usuarios-card .btn-primary:hover {
+        background-color: #00b8e6;
+        border-color: #00b8e6;
+        color: #0a0e27;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.5);
+    }
+
+    .loading-text,
+    .no-data-text {
+        color: #f0f0f0;
+        text-align: center;
+        padding: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .table-responsive {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .usuarios-card .table-dark {
+        background-color: #1a1a2e;
+        color: #f0f0f0;
+        margin-bottom: 0;
+    }
+
+    .usuarios-card .table-dark thead th {
+        background-color: #0f3460;
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #00d4ff;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+    }
+
+    .usuarios-card .table-dark tbody td {
+        border-color: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        vertical-align: middle;
+    }
+
+    .usuarios-card .table-hover tbody tr {
+        transition: all 0.2s ease;
+    }
+
+    .usuarios-card .table-hover tbody tr:hover {
+        background-color: #16213e;
+        transform: scale(1.01);
+    }
+
+    .usuarios-card .btn-warning {
+        background-color: #f0a500;
+        border-color: #f0a500;
+        color: #1a1a2e;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .usuarios-card .btn-warning:hover {
+        background-color: #d69500;
+        border-color: #d69500;
+        color: #1a1a2e;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(240, 165, 0, 0.4);
+    }
+
+    .usuarios-card .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        transition: all 0.3s ease;
+    }
+
+    .usuarios-card .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+    }
+
+    .modal-dark {
+        background-color: #0f3460;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #f0f0f0;
+    }
+
+    .modal-dark .modal-header {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-dark .modal-footer {
+        border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-dark .modal-title {
+        color: #00d4ff;
+    }
+
+    .modal-dark .btn-secondary {
+        background-color: #533483;
+        border-color: #533483;
+    }
+
+    .modal-dark .btn-secondary:hover {
+        background-color: #6b43a8;
+        border-color: #6b43a8;
+    }
+
+    .usuarios-card .alert-success {
+        background-color: rgba(40, 167, 69, 0.2);
+        border-color: #28a745;
+        color: #4ade80;
+    }
+
+    .usuarios-card .alert-danger {
+        background-color: rgba(220, 53, 69, 0.2);
+        border-color: #dc3545;
+        color: #ff6b9d;
+    }
+</style>

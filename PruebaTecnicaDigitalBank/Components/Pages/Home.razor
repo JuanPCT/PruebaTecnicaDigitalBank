@@ -1,7 +1,315 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Inicio - Prueba Técnica Digital Bank</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="home-container">
+    <div class="home-card">
+        <div class="header-section">
+            <h1 class="main-title">Prueba Técnica</h1>
+            <h2 class="subtitle">Digital Bank</h2>
+            <div class="author-badge">
+                <span class="author-label">Presentado por:</span>
+                <span class="author-name">Juan Pablo Correa Tarazona</span>
+            </div>
+        </div>
 
-Welcome to your new app.
+        <div class="divider"></div>
+
+        <div class="content-section">
+            <h3 class="section-title">📋 Descripción del Proyecto</h3>
+            <p class="description">
+                Este proyecto es una aplicación web desarrollada como prueba técnica para <strong>Digital Bank</strong>. 
+                Implementa un sistema completo de gestión de usuarios con arquitectura moderna y mejores prácticas de desarrollo.
+            </p>
+
+            <h3 class="section-title">🚀 Tecnologías Utilizadas</h3>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <span class="tech-icon">🔷</span>
+                    <span class="tech-name">Blazor Server</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">⚡</span>
+                    <span class="tech-name">.NET 8</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🌐</span>
+                    <span class="tech-name">ASP.NET Core Web API</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">💾</span>
+                    <span class="tech-name">MySQL</span>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🎨</span>
+                    <span class="tech-name">Bootstrap 5</span>
+                </div>
+            </div>
+
+            <h3 class="section-title">✨ Características Principales</h3>
+            <ul class="features-list">
+                <li>✅ CRUD completo de usuarios con validaciones</li>
+                <li>✅ Arquitectura de capas (Frontend Blazor + Backend API)</li>
+                <li>✅ Interfaz moderna con tema oscuro personalizado</li>
+                <li>✅ Validación de datos con Data Annotations</li>
+                <li>✅ Confirmación de eliminación con modales</li>
+                <li>✅ Diseño responsivo y centrado</li>
+                <li>✅ Manejo de errores y estados de carga</li>
+            </ul>
+
+            <h3 class="section-title">📦 Estructura del Proyecto</h3>
+            <div class="structure-info">
+                <p><strong>PruebaTecnicaDigitalBank:</strong> Aplicación Blazor Server (Frontend)</p>
+                <p><strong>PruebaTecnicaAPI:</strong> Web API con Entity Framework (Backend)</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="action-section">
+            <a href="/usuarios" class="btn-action">
+                <span class="btn-icon">👥</span>
+                Ver Gestión de Usuarios
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .home-container {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+
+    .home-card {
+        background-color: #0f3460;
+        border-radius: 16px;
+        padding: 3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 900px;
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .main-title {
+        color: #00d4ff;
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        color: #f0f0f0;
+        font-size: 2rem;
+        font-weight: 300;
+        margin-bottom: 1.5rem;
+        letter-spacing: 4px;
+    }
+
+    .author-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(83, 52, 131, 0.2));
+        border: 2px solid #00d4ff;
+        border-radius: 50px;
+        padding: 0.75rem 2rem;
+        margin-top: 1rem;
+    }
+
+    .author-label {
+        color: #a0a0a0;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+    }
+
+    .author-name {
+        color: #00d4ff;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(0, 212, 255, 0.5), transparent);
+        margin: 2rem 0;
+    }
+
+    .content-section {
+        color: #f0f0f0;
+    }
+
+    .section-title {
+        color: #00d4ff;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .description {
+        line-height: 1.8;
+        font-size: 1.05rem;
+        color: #d0d0d0;
+        margin-bottom: 1.5rem;
+    }
+
+    .description strong {
+        color: #00d4ff;
+    }
+
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tech-item {
+        background-color: #1a1a2e;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .tech-item:hover {
+        background-color: #16213e;
+        border-color: #00d4ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+    }
+
+    .tech-icon {
+        font-size: 1.5rem;
+    }
+
+    .tech-name {
+        color: #f0f0f0;
+        font-weight: 500;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .features-list li {
+        background-color: #1a1a2e;
+        border-left: 3px solid #00d4ff;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 4px;
+        font-size: 1.05rem;
+        transition: all 0.3s ease;
+    }
+
+    .features-list li:hover {
+        background-color: #16213e;
+        transform: translateX(5px);
+    }
+
+    .structure-info {
+        background-color: #1a1a2e;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+
+    .structure-info p {
+        margin-bottom: 0.75rem;
+        font-size: 1.05rem;
+    }
+
+    .structure-info p:last-child {
+        margin-bottom: 0;
+    }
+
+    .structure-info strong {
+        color: #00d4ff;
+    }
+
+    .action-section {
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background-color: #00d4ff;
+        border: none;
+        color: #0a0e27;
+        padding: 1rem 2.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    }
+
+    .btn-action:hover {
+        background-color: #00b8e6;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
+        color: #0a0e27;
+    }
+
+    .btn-icon {
+        font-size: 1.5rem;
+    }
+
+    .footer-section {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .footer-text {
+        color: #a0a0a0;
+        font-size: 1rem;
+    }
+
+    .heart {
+        color: #ff6b9d;
+        animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @@keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    @@media (max-width: 768px) {
+        .home-card {
+            padding: 2rem 1.5rem;
+        }
+
+        .main-title {
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+        }
+
+        .tech-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

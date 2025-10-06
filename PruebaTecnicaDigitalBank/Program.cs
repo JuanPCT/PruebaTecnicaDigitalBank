@@ -1,10 +1,14 @@
 using PruebaTecnicaDigitalBank.Components;
+using PruebaTecnicaDigitalBank.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Configurar HttpClient para UsuarioService
+builder.Services.AddHttpClient<UsuarioService>();
 
 var app = builder.Build();
 

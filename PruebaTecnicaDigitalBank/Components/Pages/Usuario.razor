@@ -1,0 +1,191 @@
+@page "/usuario/insertar"
+@page "/usuario/{IdUsuario:int}"
+@rendermode InteractiveServer
+
+<PageTitle>@(IdUsuario.HasValue ? "Modificar Usuario" : "Nuevo Usuario")</PageTitle>
+
+<div class="usuario-container">
+    <div class="usuario-card">
+        <h1 class="usuario-title">@(IdUsuario.HasValue ? "Modificar Usuario" : "Registro de Usuario")</h1>
+
+        <EditForm Model="@usuario" OnValidSubmit="@HandleValidSubmit" FormName="UsuarioForm">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <InputText id="nombre" class="form-control" @bind-Value="usuario.Nombre" />
+                <ValidationMessage For="@(() => usuario.Nombre)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento:</label>
+                <InputDate id="fechaNacimiento" class="form-control" @bind-Value="usuario.FechaNacimiento" />
+                <ValidationMessage For="@(() => usuario.FechaNacimiento)" />
+            </div>
+
+            <div class="mb-3">
+                <label for="sexo" class="form-label">Sexo:</label>
+                <InputSelect id="sexo" class="form-control" @bind-Value="usuario.Sexo">
+                    <option value="">-- Seleccione una opción --</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </InputSelect>
+                <ValidationMessage For="@(() => usuario.Sexo)" />
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary me-2">Guardar</button>
+                <a href="/usuarios" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </EditForm>
+
+        @if (mensajeGuardado)
+        {
+            <div class="alert alert-success mt-3" role="alert">
+                Usuario guardado correctamente
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .usuario-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1rem;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+
+    .usuario-card {
+        background-color: #0f3460;
+        border-radius: 12px;
+        padding: 2.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-home-small {
+        background-color: #533483;
+        border-color: #533483;
+        color: #f0f0f0;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    .btn-home-small:hover {
+        background-color: #6b43a8;
+        border-color: #6b43a8;
+        color: #f0f0f0;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(83, 52, 131, 0.4);
+    }
+
+    .usuario-title {
+        color: #00d4ff;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+
+    .usuario-card .form-label {
+        color: #f0f0f0;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .usuario-card .form-control {
+        background-color: #1a1a2e;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #f0f0f0;
+        padding: 0.75rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .usuario-card .form-control:focus {
+        background-color: #16213e;
+        border-color: #00d4ff;
+        color: #f0f0f0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.25);
+    }
+
+    .usuario-card .form-control::placeholder {
+        color: rgba(240, 240, 240, 0.5);
+    }
+
+    .usuario-card select.form-control option {
+        background-color: #1a1a2e;
+        color: #f0f0f0;
+    }
+
+    .usuario-card .btn-primary {
+        background-color: #00d4ff;
+        border-color: #00d4ff;
+        color: #0a0e27;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .usuario-card .btn-primary:hover {
+        background-color: #00b8e6;
+        border-color: #00b8e6;
+        color: #0a0e27;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.5);
+    }
+
+    .usuario-card .btn-secondary {
+        background-color: #533483;
+        border-color: #533483;
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .usuario-card .btn-secondary:hover {
+        background-color: #6b43a8;
+        border-color: #6b43a8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(83, 52, 131, 0.4);
+    }
+
+    .usuario-card .alert-success {
+        background-color: rgba(40, 167, 69, 0.2);
+        border-color: #28a745;
+        color: #4ade80;
+    }
+
+    .usuario-card .validation-message {
+        color: #ff6b9d;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .usuario-card .validation-errors {
+        background-color: rgba(0, 212, 255, 0.1);
+        border: 1px solid #00d4ff;
+        border-radius: 6px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .usuario-card .validation-errors ul {
+        margin: 0;
+        padding-left: 1.5rem;
+        color: #ff6b9d;
+    }
+</style>
